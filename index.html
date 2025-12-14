@@ -1,10 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kazuの趣味のページ</title>
+    <meta charset="UTF-8">
+    <title>GitHub Pages テストゲーム</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; }
+        button { padding: 10px 20px; font-size: 16px; margin: 5px; cursor: pointer; border: none; border-radius: 5px; }
+        #question { font-size: 24px; margin-bottom: 20px; color: #333; }
+        #message { margin-top: 20px; font-size: 18px; font-weight: bold; }
+        .correct { background-color: #4CAF50; color: white; }
+        .incorrect { background-color: #f44336; color: white; }
+    </style>
 </head>
 <body>
-    <h1>HONDA VT1300CX と Super Cub90！</h1>
-    <p>GitHub Pages 初公開テストです。バイクとカメラが趣味です。</p>
+
+<div class="container">
+    <div id="question">「こんにちは」を英語で言うと？</div>
+    <div id="options">
+        <button onclick="checkAnswer('hello')">hello</button>
+        <button onclick="checkAnswer('goodbye')">goodbye</button>
+        <button onclick="checkAnswer('thankyou')">thank you</button>
+    </div>
+    <div id="message"></div>
+    <button onclick="nextQuestion()">次の問題へ</button>
+</div>
+
+<script>
+    const quizData = [
+        { question: "「ありがとう」を英語で言うと？", options: ["please", "thank you", "excuse me"], answer: "thank you" },
+        { question: "「さようなら」を英語で言うと？", options: ["good morning", "goodbye", "good night"], answer: "goodbye" },
+        { question: "「バイク」を英語で言うと？", options: ["bicycle", "car", "motorcycle"], answer: "motorcycle" }
+    ];
+    let currentQuestionIndex = 0;
+
+    function loadQuestion() {
+        const currentQuiz = quizData[currentQuestionIndex];
+        document.getElementById('question').textContent = currentQuiz.question;
+        const optionsDiv = document.getElementById('options');
+        optionsDiv.innerHTML = '';
+        currentQuiz.options.forEach(option => {
+            const button = document.createElement('button');
+            button.textContent = option;
+            button.setAttribute('onclick', `checkAnswer('${option}')`);
+            optionsDiv.appendChild(button);
+        });
+        document.getElementById('message').textContent = '';
+    }
+
+    function checkAnswer(selectedOption) {
+        const currentQuiz = quizData[currentQuestionIndex];
+        const message = document.getElementById('message');
+        if (selectedOption === currentQuiz.answer) {
+            message.textContent = "正解です！ Great job!";
+            message.className = 'correct';
+        } else {
+            message.textContent = "不正解です。残念！ The answer is " + currentQuiz.answer + ".";
+            message.className = 'incorrect';
+        }
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex = (currentQuestionIndex + 1) % quizData.length;
+        loadQuestion();
+    }
+    
+    // 最初の問題をロード
+    loadQuestion();
+</script>
+
 </body>
 </html>
